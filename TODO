@@ -1,0 +1,10 @@
+> Allow automatic downloading through authentication
+> Create a threaded script that shows a desktop notifications when it is dividend pay-day
+> Fetch realtime data from Google Finance or other API to measure progress
+> Store daily statistics in a dat-file
+> Generate graphs based on stats
+> Process dividend-related data
+> Calculate annual return
+> Determine total annual dividends
+> Show total annual dividends as a desktop widget
+> Add support for Lynx, another Dutch exchange
