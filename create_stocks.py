@@ -54,9 +54,6 @@ def readTransactions(list_of_txs):
         if tx['transaction_cost'] == '':
             tx['transaction_cost'] = 0
 
-        if 'AFLAC' in tx['product']:
-            list_of_stocks[tx['product']].set_ticker('AFL')
-
         # Uses a custom MorningStar wrapper to determine ticker, with ISIN input
         if updateTicker:
             setTickers(tx['ISIN'], list_of_stocks[tx['product']])
@@ -75,12 +72,14 @@ def readTransactions(list_of_txs):
     return list_of_stocks
 
 def saveListOfStocks(list_of_stocks):
-    d = shelve.open('Portfolio')
+    d = shelve.open('Data/Portfolio')
     d['myStocks'] = list_of_stocks
     d.close()
 
 def readListOfStocks():
-    d = shelve.open('Portfolio')
+    list_of_stocks = []
+    #if 'Port'
+    d = shelve.open('Data/Portfolio')
     list_of_stocks = d['myStocks']
     d.close()
     return list_of_stocks
@@ -104,3 +103,35 @@ showStocks(list_of_stocks)
 
 # Writing to disk
 saveListOfStocks(list_of_stocks)
+
+
+# NOTES
+# Current jobs of create_stocks
+#
+# 1. setTickers to set ticker of Stock object
+# 2. showStocks to view portfolio on screen
+# 3. Reads through Stock objects to display the portfolio
+# 4. Calls certain Stock class functions to return info
+# 5. Reads transactions
+# 6. Creates stock objects based on transactions
+# 7. Uses Morningstar wrapper to update tickers
+# 8. Adds transactions to the Stock object, based on list of tx
+# 9. Opens shelve
+# 10. Saves shelve
+# 11. Handles DeGiro class which returns a list of transactions in a dictionary
+# 12. Handles list of stock objects
+#
+# New situation:
+#
+# Class Stock
+# > Reform getters / setters
+#
+#
+# Class StockFactory
+# > Handles list of objects (13)
+# > Calculate stuff which applies to all Stocks (averages)
+#
+# Program HandleShelve
+# > Saves list of objects to a shelve (10)
+# > Opens list of objects from a shelve (9)
+#
