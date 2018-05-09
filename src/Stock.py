@@ -1,9 +1,8 @@
-from StockInfo import StockInfo
+from src.StockInfo import StockInfo
+
 
 class Stock():
     """An object representing a single stock"""
-
-    number_of_stocks = 0
 
     def __init__(self, name, purchase_date, shares=0, price=0):
         self.name = name
@@ -16,12 +15,11 @@ class Stock():
         self.ticker = ''
         self.stockinfo = None
         self.current_price = 0
-
-        Stock.number_of_stocks += 1
+        self.isin = ''
 
     def add_transaction(self, date, time, shares, price, tx_cost=0):
         self.shares += shares
-        self.total_cost += (shares * price) - tx_cost # tx_cost is given as a negative value, so substract it, to add
+        self.total_cost += (shares * price) - tx_cost  # tx_cost is given as a negative value, so subtract it, to add
 
     def get_total_cost(self):
         return self.total_cost
@@ -46,8 +44,8 @@ class Stock():
         else:
             return 0.0
 
-    def setCurrentPrice(self, current_price):
+    def set_price(self, current_price):
         self.current_price = current_price
 
-    def setISIN(self, ISIN):
-        self.ISIN = ISIN
+    def set_isin(self, isin):
+        self.isin = isin

@@ -1,7 +1,7 @@
-import DeGiro
+from src import DeGiro
 import shelve
-from Stock import Stock
-from MorningStar_wrapper import Wrapper
+from src.Stock import Stock
+from src.MorningStar_wrapper import Wrapper
 
 def setTickers(ISIN, object):
     # Uses a wrapper to set the tickers
@@ -38,7 +38,7 @@ def showStocks(list_of_stocks):
             key.ljust(headerItemsLens[0]) +  # Name
             stock.ticker.ljust(headerItemsLens[1]) +
             str(stock.get_shares()).rjust(headerItemsLens[2]) +  # Shares
-            #'{0:.2f}'.format(stock.get_total_cost()).rjust(headerItemsLens[2]) +  # Cost base
+            # '{0:.2f}'.format(stock.get_total_cost()).rjust(headerItemsLens[2]) +  # Cost base
             '{0:.2f}'.format(stock.get_total_cost_per_share()).rjust(headerItemsLens[3]) +  # Cost base, per stock
             '{0:.2f}'.format(stock.get_price()).rjust(headerItemsLens[4])  # Current price
         )
@@ -72,14 +72,14 @@ def readTransactions(list_of_txs):
     return list_of_stocks
 
 def saveListOfStocks(list_of_stocks):
-    d = shelve.open('Data/Portfolio')
+    d = shelve.open('../Data/Portfolio')
     d['myStocks'] = list_of_stocks
     d.close()
 
 def readListOfStocks():
     list_of_stocks = []
     #if 'Port'
-    d = shelve.open('Data/Portfolio')
+    d = shelve.open('../Data/Portfolio')
     list_of_stocks = d['myStocks']
     d.close()
     return list_of_stocks
@@ -88,7 +88,7 @@ list_of_txs = DeGiro.processTransactionsFile()
 list_of_stocks = {}
 
 updateTicker = False
-updatePrice = False
+updatePrice = True
 
 # Reading from disk
 list_of_stocks = readListOfStocks()

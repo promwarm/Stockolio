@@ -1,13 +1,13 @@
 def processTransactionsFile():
     """
     Processes the transactions.csv file you could download from your DeGiro account.
-    Returns a list of dictionaries with the inidividual transactions
+    Returns a list of dictionaries with the individual transactions
     """
 
     number_of_tx_lines = 0
     list_of_txs = []
 
-    with open('Transactions.csv') as tx:
+    with open('../Data/Transactions.csv') as tx:
         tx_lines = tx.readlines()
 
     for tx_line in tx_lines:

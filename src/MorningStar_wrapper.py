@@ -2,12 +2,13 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+
 class Wrapper:
     """
         Wrapper to return a ticker, based on ISIN input.
         Data from Morningstar.com
 
-        This wrapper is seperately available at https://github.com/promwarm/ISIN_to_ticker
+        This wrapper is separately available at https://github.com/promwarm/ISIN_to_ticker
     """
 
     # If True prints some basic feedback from the Wrapper

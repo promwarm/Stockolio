@@ -1,5 +1,6 @@
 import requests as req
 
+
 class StockInfo():
 
     """ Returns realtime stock info, provided by IEX trading, for free """
