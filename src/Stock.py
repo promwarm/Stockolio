@@ -1,4 +1,4 @@
-from src.StockInfo import StockInfo
+from StockInfo import StockInfo
 
 
 class Stock():
