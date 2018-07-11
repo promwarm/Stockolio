@@ -1,4 +1,4 @@
-from import DeGiro
+import DeGiro
 import shelve
 from Stock import Stock
 from MorningStar_wrapper import Wrapper
@@ -44,7 +44,7 @@ def showStocks(list_of_stocks):
         )
 
 def readTransactions(list_of_txs):
-    print('readTransaction() code executed now')
+    # print('readTransaction() code executed now')
     for tx in list_of_txs:
         # Instantiate Stock object
         if tx['product'] not in list_of_stocks:
@@ -58,7 +58,7 @@ def readTransactions(list_of_txs):
         if updateTicker:
             setTickers(tx['ISIN'], list_of_stocks[tx['product']])
 
-        list_of_stocks[tx['product']].setISIN(tx['ISIN'])
+        list_of_stocks[tx['product']].set_isin(tx['ISIN'])
 
         # Adding transaction to object
         list_of_stocks[tx['product']].add_transaction(
@@ -87,22 +87,22 @@ def readListOfStocks():
 list_of_txs = DeGiro.processTransactionsFile()
 list_of_stocks = {}
 
-updateTicker = False
+updateTicker = True
 updatePrice = True
 
 # Reading from disk
-list_of_stocks = readListOfStocks()
+# list_of_stocks = readListOfStocks()
 
 # If we have to update from disk, execute code below
-#list_of_stocks = readTransactions(list_of_txs)
+list_of_stocks = readTransactions(list_of_txs)
 
-# for key, value in list_of_stocks.items():
-#       setTickers(value.ISIN, value)
+for key, value in list_of_stocks.items():
+       setTickers(value.isin, value)
 
 showStocks(list_of_stocks)
 
 # Writing to disk
-saveListOfStocks(list_of_stocks)
+# saveListOfStocks(list_of_stocks)
 
 
 # NOTES
