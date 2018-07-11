@@ -1,7 +1,7 @@
-from src import DeGiro
+from import DeGiro
 import shelve
-from src.Stock import Stock
-from src.MorningStar_wrapper import Wrapper
+from Stock import Stock
+from MorningStar_wrapper import Wrapper
 
 def setTickers(ISIN, object):
     # Uses a wrapper to set the tickers
