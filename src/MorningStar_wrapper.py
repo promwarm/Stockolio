@@ -12,7 +12,7 @@ class Wrapper:
     """
 
     # If True prints some basic feedback from the Wrapper
-    debug = True
+    debug = False
 
     def __init__(self, ISIN=''):
         self.ISIN = ISIN.upper()

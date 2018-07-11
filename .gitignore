@@ -83,6 +83,3 @@ ENV/
 
 # Old version of this application
 OldVersion/
-
-# Project specific files
-Data/
