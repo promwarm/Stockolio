@@ -83,3 +83,6 @@ ENV/
 
 # Old version of this application
 OldVersion/
+
+# Logging folder
+logs/
