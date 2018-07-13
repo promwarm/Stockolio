@@ -1,18 +1,15 @@
 import DeGiro
 from Stock import Stock
 from MorningStar_wrapper import Wrapper
-import logging
 from colorama import Fore
 
 
-def setTickers(ISIN, object):
-    #logger.debug(f"setTickers() - ISIN: {ISIN} - object {object}")
+def setTickers(ISIN, exchange, object):
     # Uses a wrapper to set the tickers
     if object.ticker == '':
-        logger.debug(f"setTickers() - Creating Wrapper object for ISIN: {ISIN} - ticker: {object.ticker}")
-        w = Wrapper(ISIN)
+        logger.debug(f"setTickers() - Creating Wrapper object for ISIN: {ISIN} with exchange {exchange}")
+        w = Wrapper(ISIN, exchange)
         ticker = w.getTicker()
-        #logger.debug(f"setTickers() - ISIN: {ISIN} - ticker: {ticker}")
         object.set_ticker(ticker)
 
 
@@ -75,7 +72,7 @@ def readTransactions(list_of_txs, updateTicker, updatePrice):
 
         # Uses a custom MorningStar wrapper to determine ticker, with ISIN input
         if updateTicker and list_of_stocks[tx['product']].ticker == '':
-            setTickers(tx['ISIN'], list_of_stocks[tx['product']])
+            setTickers(tx['ISIN'], tx['exchange'], list_of_stocks[tx['product']])
 
         if updatePrice:
             list_of_stocks[tx['product']].set_update_price(updatePrice)
@@ -95,46 +92,34 @@ def readTransactions(list_of_txs, updateTicker, updatePrice):
     return list_of_stocks
 
 
-def saveListOfStocks(list_of_stocks):
-    d = shelve.open('../Data/Portfolio')
-    d['myStocks'] = list_of_stocks
-    d.close()
-
-
-def readListOfStocks():
-    list_of_stocks = []
-    #if 'Port'
-    d = shelve.open('../Data/Portfolio')
-    list_of_stocks = d['myStocks']
-    d.close()
-    return list_of_stocks
-
-
 def config_logger():
     from os import path, remove
     import logging
 
+    LOG_NAME = 'Stockolio'
+    LOG_FILENAME = 'Stockolio.log'
+
     # If applicable, delete the existing log file to generate a fresh log file during each execution
-    if path.isfile("../logs/python_logging.log"):
-        remove("../logs/python_logging.log")
+    if path.isfile(f"../logs/{LOG_FILENAME}"):
+        remove(f"../logs/{LOG_FILENAME}")
 
     # Create the Logger
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(f"{LOG_NAME}")
     logger.setLevel(logging.DEBUG)
 
     # Create the Handler for logging data to a file
-    logger_handler = logging.FileHandler('../logs/python_logging.log')
+    logger_handler = logging.FileHandler(f'../logs/{LOG_FILENAME}')
     logger_handler.setLevel(logging.DEBUG)
 
     # Create a Formatter for formatting the log messages
-    logger_formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+    logger_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     # Add the Formatter to the Handler
     logger_handler.setFormatter(logger_formatter)
 
     # Add the Handler to the Logger
     logger.addHandler(logger_handler)
-    logger.info('Completed configuring logger()!!')
+    logger.info('Completed configuring logger!')
     return logger
 
 
@@ -148,18 +133,12 @@ def main():
     # If we have to update from disk, execute code below
     logger.debug("Creating a list_of_stocks")
     list_of_stocks = readTransactions(list_of_txs, updateTicker, updatePrice)
-    print(Stock.instances_started)
-    #pprint(list_of_stocks)
 
-    for key, value in list_of_stocks.items():
-         setTickers(value.isin, value)
+    # This code seems to be deprecated
+    # for key, value in list_of_stocks.items():
+    #      setTickers(value.isin, value.exchange, value)
 
     showStocks(list_of_stocks)
-
-    log_to_debug = logging.getLogger(__name__)
-    while log_to_debug is not None:
-        print(f"level: {log_to_debug.level}, name: {log_to_debug.name}, handlers: {log_to_debug.handlers}")
-        log_to_debug = log_to_debug.parent
 
 
 if __name__ == '__main__':
