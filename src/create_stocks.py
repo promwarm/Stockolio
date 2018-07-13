@@ -1,7 +1,7 @@
 import DeGiro
 from Stock import Stock
 from MorningStar_wrapper import Wrapper
-from colorama import Fore
+from colorama import init, Fore
 
 
 def setTickers(ISIN, exchange, object):
@@ -142,5 +142,6 @@ def main():
 
 
 if __name__ == '__main__':
+    init(convert=True)  # Converts colors in Colorama for Windows x64
     logger = config_logger()
     main()
