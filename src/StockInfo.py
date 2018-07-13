@@ -1,8 +1,7 @@
-from CustomLogging import logger
 import requests as req
 import logging
 
-logging_enabled = False
+logging_enabled = True
 
 
 class StockInfo:
@@ -14,16 +13,15 @@ class StockInfo:
     def __init__(self, ticker):
         self.ticker = ticker.upper()
         if logging_enabled:
-            self.logger = logger(file_handler='../logs/StockInfo.log', name=__name__)
-            self.logger = logging.getLogger(__name__)
-            self.logger.debug(f"StockInfo object created for {self.ticker}")
+            self.logger = logging.getLogger(f'Stockolio.{__name__}')
+            self.logger.debug(f"StockInfo object created for ticker {self.ticker}")
 
     def getPrice(self):
-        if logging_enabled:
-            self.logger.debug(f"getPrice() ran for {self.ticker} - quitting right away for now")
+        # if logging_enabled:
+        #     self.logger.debug(f"getPrice() ran for {self.ticker} - quitting right away for now")
         endpoint = f'/stock/{self.ticker}/price'
         url = self.PREFIX + endpoint
-        return 0
+#        return 0
 
         price = 0.0
 
@@ -34,15 +32,3 @@ class StockInfo:
                 self.logger.debug(f"Ticker {self.ticker} - URL {url} - Price {price}")
 
         return price
-
-    def set_logging(self):
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
-
-        formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
-
-        file_handler = logging.FileHandler('../Data/Stockolio.log')
-        file_handler.setFormatter(formatter)
-
-        self.logger.addHandler(file_handler)
-        return self.logger
