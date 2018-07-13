@@ -2,6 +2,8 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+valid_exchanges = ['NSY', 'NDQ']
+
 
 class Wrapper:
     """
@@ -14,15 +16,17 @@ class Wrapper:
     # If True prints some basic feedback from the Wrapper
     debug = False
 
-    def __init__(self, ISIN=''):
+    def __init__(self, ISIN='', exchange=''):
         self.ISIN = ISIN.upper()
+        self.exchange = exchange
 
-        if self.ISIN:
+        if self.ISIN and self.exchange in valid_exchanges:
             # Opens search URL and returns a Requests-object
             r = self.startConnection()
 
             # Creates soup and finds the correct result data based on a request-object
             self.makeSoup(r)
+
 
     def setISIN(self, ISIN):
         """ Sets the value of ISIN, it's required to set this, either in the __init__ or with this function """
@@ -57,6 +61,9 @@ class Wrapper:
 
     def getTicker(self):
         """ Returns a ticker based on the filtered data, which is collected in makeSoup() """
+        if self.exchange not in valid_exchanges:
+            return ''
+
         if self.debug:
             print('DATA: ' + self.data)
 
