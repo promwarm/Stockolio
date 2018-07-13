@@ -24,7 +24,7 @@ class Stock:
         self.update_price = False
 
         if logging_enabled:
-            self.logger = logging.getLogger(__name__)
+            self.logger = logging.getLogger(f'Stockolio.{__name__}')
             self.logger.debug(f"Stock object {name} created {purchase_date}, {shares}, {price}")
 
         Stock.instances_started += 1
